@@ -18,5 +18,9 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(len(authors) == 1)
         self.assertTrue(authors[0] == Author('Pratchett', 'Terry'))
 
+    def test_commas_in_book_titles(self):
+        title = self.data_source.books("Fine, Thanks")
+        self.assertTrue(len(title) == 1)
+
 if __name__ == '__main__':
     unittest.main()
