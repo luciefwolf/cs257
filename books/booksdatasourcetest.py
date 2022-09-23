@@ -18,6 +18,12 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(len(authors) == 1)
         self.assertTrue(authors[0] == Author('Pratchett', 'Terry'))
 
+    def test_unique_title(self):
+        titles = self.data_source.books('Beloved')
+        self.assertTrue(len(titles) == 1)
+        self.assertTrue(titles[0] == Book('Beloved'))
+
+
     def test_commas_in_book_titles(self):
         title = self.data_source.books("Fine, Thanks")
         self.assertTrue(len(title) == 1)
