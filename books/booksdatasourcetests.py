@@ -39,8 +39,10 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(authors[1] == Author('Baldwin', 'James'))
         self.assertTrue(authors[2] == Author('Bujold', 'Lois McMaster')) 
 
-    def test_book_search_titlesort(self):
+    def test_book_search_titlesort_and_default(self):
+        bookstitle = self.data_source.books('Al', sort_by = 'title')
         books = self.data_source.books('Al')
+        self.assertTrue(books == bookstitle)
         self.assertTrue(len(books) == 3)
         self.assertTrue(books[0] == Book('All Clear'))
         self.assertTrue(books[1] == Book('If Beale Street Could Talk'))
