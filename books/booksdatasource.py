@@ -10,11 +10,12 @@
 import csv
 
 class Author:
-    def __init__(self, surname='', given_name='', birth_year=None, death_year=None):
+    def __init__(self, surname='', given_name='', birth_year=None, death_year=None, books=None):
         self.surname = surname
         self.given_name = given_name
         self.birth_year = birth_year
         self.death_year = death_year
+        self.books = books
 
     def __eq__(self, other):
         ''' For simplicity, we're going to assume that no two authors have the same name. '''
@@ -85,3 +86,10 @@ class BooksDataSource:
             should be included.
         '''
         return []
+
+
+def main():
+    pass
+
+if __name__ == '__main__':
+    main()
