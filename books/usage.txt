@@ -3,10 +3,10 @@ Written by Lucie Wolf and Yuelin Kuang
 BookSearch - this is a program that displays information about some books 
 
 SYNOPSIS: 
-python3 BookSearch.py searchAuthor "key phrase" [OPTION]
-python3 BookSearch.py searchTitle "key phrase" [OPTION]
-python3 BookSearch.py range startDate endDate [OPTION]
-python3 BookSearch.py help
+python3 books.py searchAuthor "key phrase"
+python3 books.py searchTitle "key phrase" [-t | -y | -n]
+python3 books.py range startYear endYear [-t | -y | -n]
+python3 books.py help
 
 OPTIONS: 
 -t, --title: sort by book titles alphabetically

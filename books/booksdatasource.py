@@ -50,7 +50,56 @@ class BooksDataSource:
             suitable instance variables for the BooksDataSource object containing
             a collection of Author objects and a collection of Book objects.
         '''
-        pass
+        books = []
+        authors = []
+
+        with open(books_csv_file_name) as books_csv:
+            books_csv = csv.reader(books_csv, delimiter=',')
+
+            for row in books_csv:
+                title = row[0]
+                year = row[1]
+                book = 0
+                book = Book(title=title, publication_year=year, authors=[])
+
+                authors_in_book = row[2].split(' and ')
+                for i in range(len(authors_in_book)):
+                    authors_in_book[i] = authors_in_book[i].split(' ')
+
+                for author in authors_in_book:
+
+                    surname = author[-2]
+                    list_of_given_names = [name for name in author[:-2]]
+                    given_name = ' '.join(list_of_given_names)
+
+                    already_in_list = False
+                    for other_author in authors:
+                        if Author(surname = surname, given_name = given_name) == other_author:
+                            already_in_list = True
+                            other_author.books.append(book)
+
+                            book.authors.append(other_author)
+
+                    if not already_in_list:
+                        years = author[-1][1:-1].split('-')
+                        if years[0] == '':
+                            birth_year = None
+                        else:
+                            birth_year = int(years[0])
+                        if years[1] == '':
+                            death_year = None
+                        else:
+                            death_year = int(years[1])
+
+                        author_object = Author(surname=surname, given_name=given_name, birth_year=birth_year, death_year=death_year, books=[book])
+                        authors.append(author_object)
+                        book.authors.append(author_object)
+            
+            
+                books.append(book)
+                
+                
+
 
     def authors(self, search_text=None):
         ''' Returns a list of all the Author objects in this data source whose names contain
@@ -89,7 +138,7 @@ class BooksDataSource:
 
 
 def main():
-    pass
+    b = BooksDataSource('books1.csv')
 
 if __name__ == '__main__':
     main()
