@@ -5,7 +5,7 @@ BookSearch - this is a program that displays information about some books
 SYNOPSIS: 
 python3 books.py searchAuthor "key phrase"
 python3 books.py searchTitle "key phrase" [-t | -y | -n]
-python3 books.py range startYear endYear [-t | -y | -n]
+python3 books.py range startYear endYear
 python3 books.py help
 
 OPTIONS: 
