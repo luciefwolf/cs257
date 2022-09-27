@@ -88,17 +88,21 @@ class BooksDataSource:
 
 
     def authors(self, search_text=None):
-        search_text
         ''' Returns a list of all the Author objects in this data source whose names contain
             (case-insensitively) the search text. If search_text is None, then this method
             returns all of the Author objects. In either case, the returned list is sorted
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
-        search_text = search_text.upper()
+        if search_text:
+            search_text = search_text.upper()
+            authors_with_search_text = [author for author in self.all_authors if search_text in author.surname.upper() or search_text in author.given_name.upper()]
+        else:
+            authors_with_search_text = self.all_authors
 
-        authors_with_search_text = [author for author in self.all_authors if search_text in author.surname.upper() or search_text in author.given_name.upper()]
+        return sorted(authors_with_search_text, key = lambda author: (author.surname, author.given_name))
+
         
-        return []
+        
 
     def books(self, search_text=None, sort_by='title'):
         ''' Returns a list of all the Book objects in this data source whose
@@ -156,15 +160,27 @@ class BooksDataSource:
 
 def main():
     b = BooksDataSource('books1.csv')
-    b.authors("o")
+    test_authors = b.authors("Pratchett")
+
+    print(test_authors)
+    print(len(test_authors))
+    for author in test_authors:
+        print(author.surname + ', ' + author.given_name)
+
+    authors = b.authors('Pratchett')
+    print(len(authors) == 1)
+    print(authors[0] == Author('Pratchett', 'Terry'))
 
 
-    '''Lines below are for testing. 
+
+    #Lines below are for testing. 
+
     '''
     test_range = b.books_between_years(1996,'1996')
     print(len(test_range))
     for book in test_range:
         print(book.title + ", " + str(book.publication_year))
+    '''
 
 if __name__ == '__main__':
     main()

@@ -1,14 +1,13 @@
 Written by Lucie Wolf and Yuelin Kuang
 
-BookSearch - this is a program that displays information about some books 
+books - a program that displays information about the books in a small database
 
 SYNOPSIS: 
-python3 books.py searchAuthor "key phrase"
-python3 books.py searchTitle "key phrase" [-t | -y | -n]
-python3 books.py range startYear endYear
-python3 books.py help
+	python3 books.py searchAuthor "key phrase"
+	python3 books.py searchTitle "key phrase" [-t | -y]
+	python3 books.py range startYear endYear
+	python3 books.py help
 
 OPTIONS: 
--t, --title: sort by book titles alphabetically
--y, --year: sort by publication year
--n, --author: sort by author's last name
+	-t, --title: sort by book titles alphabetically
+	-y, --year: sort by publication year
