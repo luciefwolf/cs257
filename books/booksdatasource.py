@@ -37,21 +37,8 @@ class Book:
 
 class BooksDataSource:
     def __init__(self, books_csv_file_name):
-        ''' The books CSV file format looks like this:
-
-                title,publication_year,author_description
-
-            For example:
-
-                All Clear,2010,Connie Willis (1945-)
-                "Right Ho, Jeeves",1934,Pelham Grenville Wodehouse (1881-1975)
-
-            This __init__ method parses the specified CSV file and creates
-            suitable instance variables for the BooksDataSource object containing
-            a collection of Author objects and a collection of Book objects.
-        '''
-        books = []
-        authors = []
+        self.all_books = []
+        self.all_authors = []
 
         with open(books_csv_file_name) as books_csv:
             books_csv = csv.reader(books_csv, delimiter=',')
@@ -59,27 +46,27 @@ class BooksDataSource:
             for row in books_csv:
                 title = row[0]
                 year = row[1]
-                book = 0
                 book = Book(title=title, publication_year=year, authors=[])
 
                 authors_in_book = row[2].split(' and ')
-                for i in range(len(authors_in_book)):
-                    authors_in_book[i] = authors_in_book[i].split(' ')
 
                 for author in authors_in_book:
+                    author = author.split(' ')
 
                     surname = author[-2]
                     list_of_given_names = [name for name in author[:-2]]
                     given_name = ' '.join(list_of_given_names)
 
+                    #checks if this author is already in this list
                     already_in_list = False
-                    for other_author in authors:
+                    for other_author in self.all_authors:
                         if Author(surname = surname, given_name = given_name) == other_author:
                             already_in_list = True
-                            other_author.books.append(book)
 
+                            other_author.books.append(book)
                             book.authors.append(other_author)
 
+                    #if it's not, add the rest of the information and add it
                     if not already_in_list:
                         years = author[-1][1:-1].split('-')
                         if years[0] == '':
@@ -92,21 +79,25 @@ class BooksDataSource:
                             death_year = int(years[1])
 
                         author_object = Author(surname=surname, given_name=given_name, birth_year=birth_year, death_year=death_year, books=[book])
-                        authors.append(author_object)
+                        self.all_authors.append(author_object)
                         book.authors.append(author_object)
             
-            
-                books.append(book)
+                self.all_books.append(book)
                 
                 
 
 
     def authors(self, search_text=None):
+        search_text
         ''' Returns a list of all the Author objects in this data source whose names contain
             (case-insensitively) the search text. If search_text is None, then this method
             returns all of the Author objects. In either case, the returned list is sorted
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
+        search_text = search_text.upper()
+
+        authors_with_search_text = [author for author in self.all_authors if search_text in author.surname.upper() or search_text in author.given_name.upper()]
+        
         return []
 
     def books(self, search_text=None, sort_by='title'):
@@ -139,6 +130,7 @@ class BooksDataSource:
 
 def main():
     b = BooksDataSource('books1.csv')
+    b.authors("o")
 
 if __name__ == '__main__':
     main()
