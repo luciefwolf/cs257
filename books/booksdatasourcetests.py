@@ -107,9 +107,9 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(len(years) == 0)
 
     def test_nonInt_input_range(self):
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(TypeError) as context:
             self.data_source.books_between_years('string', 'somestring')
-            self.assertTrue('Year provided is not valid.' in str(context.exception))
+            self.assertTrue('Only integers are allowed.' in str(context.exception))
     
     def test_invalid_book(self):
         books = self.data_source.books('dfhssfd')

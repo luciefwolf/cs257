@@ -128,7 +128,7 @@ class BooksDataSource:
 
         #Raise an exception if the input is not valid
         if (type(start_year) is not int and start_year is not None) or (type(end_year) is not int and end_year is not None):
-            raise Exception("Year provided is not valid.")
+            raise TypeError("Only integers are allowed.")
 
         books = self.all_books
 
@@ -161,7 +161,7 @@ def main():
 
     '''Lines below are for testing. 
     '''
-    test_range = b.books_between_years(1996,1996)
+    test_range = b.books_between_years(1996,'1996')
     print(len(test_range))
     for book in test_range:
         print(book.title + ", " + str(book.publication_year))
