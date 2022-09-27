@@ -45,7 +45,7 @@ class BooksDataSource:
 
             for row in books_csv:
                 title = row[0]
-                year = row[1]
+                year = int(row[1])
                 book = Book(title=title, publication_year=year, authors=[])
 
                 authors_in_book = row[2].split(' and ')
@@ -125,12 +125,46 @@ class BooksDataSource:
             during start_year should be included. If both are None, then all books
             should be included.
         '''
-        return []
+
+        #Raise an exception if the input is not valid
+        if (type(start_year) is not int and start_year is not None) or (type(end_year) is not int and end_year is not None):
+            raise Exception("Year provided is not valid.")
+
+        books = self.all_books
+
+        books_start = []
+        books_end = []
+        
+        if start_year is None:
+            books_start = books
+        else:
+            for book in books:
+                if book.publication_year >= start_year:
+                    books_start.append(book)
+
+        if end_year is not None:
+            for book in books_start:
+                if book.publication_year <= end_year:
+                    books_end.append(book)
+        else:
+            books_end = books_start
+
+        sorted_books = sorted(books_end, key = lambda x: (x.publication_year, x.title))
+
+        return sorted_books
 
 
 def main():
     b = BooksDataSource('books1.csv')
     b.authors("o")
+
+
+    '''Lines below are for testing. 
+    '''
+    test_range = b.books_between_years(1996,1996)
+    print(len(test_range))
+    for book in test_range:
+        print(book.title + ", " + str(book.publication_year))
 
 if __name__ == '__main__':
     main()
