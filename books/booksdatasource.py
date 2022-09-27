@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 '''
+    Implemented by Lucie Wolf and Yuelin Kuang
+
     booksdatasource.py
     Jeff Ondich, 21 September 2022
 
