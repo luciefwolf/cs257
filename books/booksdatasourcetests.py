@@ -105,6 +105,11 @@ class BooksDataSourceTester(unittest.TestCase):
     def test_invalid_range(self):
         years = self.data_source.books_between_years(2050,2070)
         self.assertTrue(len(years) == 0)
+
+    def test_nonInt_input_range(self):
+        with self.assertRaises(Exception) as context:
+            self.data_source.books_between_years('string', 'somestring')
+            self.assertTrue('Year provided is not valid.' in str(context.exception))
     
     def test_invalid_book(self):
         books = self.data_source.books('dfhssfd')
