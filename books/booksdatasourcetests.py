@@ -13,6 +13,7 @@ class BooksDataSourceTester(unittest.TestCase):
     def setUp(self):
         self.data_source = BooksDataSource('books1.csv')
         self.data_source_tiny = BooksDataSource('tiny.csv')
+        self.data_source_yearsort = BooksDataSource('yearsort.csv')
 
     def tearDown(self):
         pass
@@ -76,13 +77,6 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(books[0] == Book('The Tenant of Wildfell Hall'))
         self.assertTrue(books[1] == Book('If Beale Street Could Talk'))
         self.assertTrue(books[2] == Book('All Clear'))
-        
-    def test_book_search_author_sort(self):
-        books = self.data_source.books('Al', sort_by = 'author')
-        self.assertTrue(len(books) == 3)
-        self.assertTrue(books[0] == Book('If Beale Street Could Talk'))
-        self.assertTrue(books[1] == Book('The Tenant of Wildfell Hall'))
-        self.assertTrue(books[2] == Book('All Clear'))
 
     def test_invalid_book(self):
         books = self.data_source.books('dfhssfd')
@@ -94,6 +88,13 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(books[0] == Book('1Q84'))
         self.assertTrue(books[1] == Book('Elmer Gantry'))
         self.assertTrue(books[2] == Book('Schoolgirls'))
+
+    def test_book_search_year_sort_tie(self):
+        books = self.data_source_yearsort.books(sort_by = 'year')
+        self.assertTrue(len(books) == 3)
+        self.assertTrue(books[0] == Book('Elmer Gantry'))
+        self.assertTrue(books[1] == Book('All Clear'))
+        self.assertTrue(books[2] == Book('Blackout'))
 
 
     #range between years tests

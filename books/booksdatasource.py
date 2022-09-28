@@ -118,7 +118,19 @@ class BooksDataSource:
                 default -- same as 'title' (that is, if sort_by is anything other than 'year'
                             or 'title', just do the same thing you would do for 'title')
         '''
-        return []
+        if search_text:
+            search_text = search_text.upper()
+            books_with_search_text = [book for book in self.all_books if search_text in book.title.upper()]
+        else:
+            books_with_search_text = self.all_books
+
+        if sort_by == 'year':
+            return sorted(books_with_search_text, key = lambda book: (book.publication_year, book.title))
+        else:
+            return sorted(books_with_search_text, key = lambda book: (book.title))
+
+            
+
 
     def books_between_years(self, start_year=None, end_year=None):
         ''' Returns a list of all the Book objects in this data source whose publication
@@ -155,15 +167,23 @@ class BooksDataSource:
         else:
             books_end = books_start
 
-        sorted_books = sorted(books_end, key = lambda x: (x.publication_year, x.title))
+        sorted_books = sorted(books_end, key = lambda book: (book.publication_year, book.title))
 
         return sorted_books
 
 
 def main():
     b = BooksDataSource('books1.csv')
-    test_authors = b.authors("Pratchett")
+    
+    
+    
 
+
+
+    #Lines below are for testing. 
+
+    '''
+    test_authors = b.authors("Pratchett")
     print(test_authors)
     print(len(test_authors))
     for author in test_authors:
@@ -173,11 +193,6 @@ def main():
     print(len(authors) == 1)
     print(authors[0] == Author('Pratchett', 'Terry'))
 
-
-
-    #Lines below are for testing. 
-
-    '''
     test_range = b.books_between_years(1996,'1996')
     print(len(test_range))
     for book in test_range:
