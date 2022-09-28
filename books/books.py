@@ -6,79 +6,89 @@ import booksdatasource as bds
 import sys
 
 def run_command(args, source):
-    if len(args) < 2:
-        return 'Help'
-    
-    if args[1] == 'author':
-        return run_author_command(args, source)
-    
-    if args[1] == 'title':
-        return run_title_command(args, source)
+    if len(args) >= 2:
+        if args[1] == 'author':
+            return run_author_command(args[2:], source)
         
-    if args[1] == 'range':
-        return run_range_command(args, source)
+        if args[1] == 'title':
+            return run_title_command(args[2:], source)
+            
+        if args[1] == 'range':
+            return run_range_command(args[2:], source)
 
     return 'Help' #else, return help
 
-def run_author_command(args, source):
-    if len(args) == 2 or (len(args) == 3 and args[2][0] == '_'):
+
+def run_author_command(short_args, source): #short_args is only the relevant arguments (excluding "books.py author")
+    #runs the author command using the arguments given by finding out the specific structure of the input
+
+    if len(short_args) == 0 or (len(short_args) == 1 and short_args[0][0] == '_'):
         return source.authors()
-    if len(args) == 3:
-        return source.authors(args[2])
+    
+    if len(short_args) == 1:
+        return source.authors(short_args[0])
+    
     return 'Help'
 
-def run_title_command(args, source):
-    if len(args) == 2:
+
+def run_title_command(short_args, source): #short_args is only the relevant arguments (excluding "books.py title")
+    #runs the title command using the arguments given by finding out the specific structure of the input
+
+    if len(short_args) == 0:
         return source.books()
-    if len(args) == 3:
-        if args[2][0] == '-':
-            if args[2] == '-y' or args[2] == '--year':
+
+    if len(short_args) == 1:
+        if short_args[0] == '_':
+            return source.books()
+        if short_args[0][0] == '-':
+            if short_args[0] == '-y' or short_args[0] == '--year':
                 return source.books(sort_by = 'year')
             return source.books()
-        if args[2] == '_':
-            return source.books()
-        return source.books(args[2])
+        return source.books(short_args[0])
     
-    if len(args) == 4:
-        if args[3][0] == '-':
-            if args[3] == '-y' or args[3] == '--year':
-                if args[2] == '_':
-                    return source.books(sort_by = 'year')
-                return source.books(args[2], sort_by = 'year')
-            if args[2] == '_':
-                return source.books()
-            return source.books(args[2])
+    if len(short_args) == 2:
+        if short_args[0] == '_':
+            if short_args[1] == '-y' or short_args[1] == '--year':
+                return source.books(sort_by = 'year')
+            return source.books()
+        if short_args[1][0] == '-':
+            if short_args[1] == '-y' or short_args[1] == '--year':
+                return source.books(short_args[0], sort_by = 'year')
+            return source.books(short_args[0])
     
     return 'Help'
 
-def run_range_command(args, source):
-    if len(args) == 2:
+
+def run_range_command(short_args, source): #short_args is only the relevant arguments (excluding "books.py range")
+    #runs the range_between_years command using the arguments given by finding out the specific structure of the input
+
+    if len(short_args) == 0:
         return source.books_between_years()
-        
-    if len(args) == 3:
-        if args[2] == '_':
+
+    if len(short_args) == 1:
+        if short_args[0] == '_':
             return source.books_between_years()
         try: 
-            return source.books_between_years(start_year = int(args[2]))
+            return source.books_between_years(start_year = int(short_args[0]))
         except:
             return 'Help'
 
-    if len(args) == 4:
-        if args[2] == '_':
-            if args[3] == '_':
+    if len(short_args) == 2:
+        if short_args[0] == '_':
+            if short_args[1] == '_':
                 return source.books_between_years()
             try:
-                return source.books_between_years(end_year = int(args[3]))
+                return source.books_between_years(end_year = int(short_args[1]))
             except:
                 return 'Help'
-        if args[3] == '_':
+        if short_args[1] == '_':
             try:
-                return source.books_between_years(start_year = int(args[2]))
+                return source.books_between_years(start_year = int(short_args[0]))
             except:
                 return 'Help'
         else:
             try:
-                return source.books_between_years(start_year = int(args[2]), end_year = int(args[3]))
+                return source.books_between_years(start_year = int(short_args[0]), end_year = int(short_args[1]))
             except:
                 return 'Help'
     return 'Help'
