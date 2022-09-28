@@ -1,7 +1,9 @@
+
+
 Written by Lucie Wolf and Yuelin Kuang
 
-books - a program that displays information about the books 
-	    in a small database, books1.csv
+books.py - a program that displays information about the books 
+	       in a small database, books1.csv
 
 SYNOPSIS: 
 	python3 books.py author ["key phrase" | _]
@@ -14,9 +16,9 @@ SYNOPSIS:
 		  "key phrase" by default in alphabetical order 
 		  by title
 
-	python3 books.py range [startYear | _] [endYear | _]
+	python3 books.py range [start_year | _] [end_year | _]
 		- display the list of books that are published between 
-		  startYear and endYear in ascending order by publication 
+		  start_year and end_year in ascending order by publication 
 		  year
 
 	python3 books.py help
@@ -27,3 +29,4 @@ OPTIONS:
 	-y, --year: sort by publication year
 	_: skips out on this parameter (potentially allowing future 
 	   ones to be used)
+

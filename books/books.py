@@ -1,82 +1,92 @@
 #!/usr/bin/env python3
+
 #Written by Yuelin Kuang & Lucie Wolf
 
 import booksdatasource as bds
 import sys
 
 def run_command(args, source):
+    if len(args) < 2:
+        return 'Help'
+    
     if args[1] == 'author':
-        if len(args) == 2 or (len(args) == 3 and args[2][0] == '_'):
-            return source.authors()
-        if len(args) == 3:
-            return source.authors(args[2])
-        else:
-            return 'Help'
+        return run_author_command(args, source)
     
     if args[1] == 'title':
-        if len(args) == 2:
-            return source.books()
-        if len(args) == 3:
-            if args[2][0] == "-":
-                if args[2] == '-y' or args[2] == '--year':
-                    return source.books(sort_by = 'year')
-                else: 
-                    return source.books()
-            else:
-                if args[2] == '_':
-                    return source.books()
-                else:
-                    return source.books(args[2])
-        if len(args) == 4:
-            if args[3][0] == "-":
-                if args[3] == '-y' or args[3] == '--year':
-                    if args[2] == '_':
-                        return source.books(sort_by = 'year')
-                    else:
-                        return source.books(args[2], sort_by = 'year')
-                else: 
-                    if args[2] == '_':
-                        return source.books()
-                    else:
-                        return source.books(args[2])
-        return 'Help'
+        return run_title_command(args, source)
         
     if args[1] == 'range':
-        if len(args) == 2:
-            return source.books_between_years()
-        if len(args) == 3:
-            if args[2] == '_':
-                return source.books_between_years()
-            else:
-                try:
-                    return source.books_between_years(start_year = int(args[2]))
-                except:
-                    return 'Help'
-        if len(args) == 4:
-            if args[2] == '_':
-                if args[3] == '_':
-                    return source.books_between_years()
-                else:
-                    try:
-                        return source.books_between_years(end_year = int(args[3]))
-                    except:
-                        return 'Help'
-            if args[3] == '_':
-                try:
-                    return source.books_between_years(start_year = int(args[2]))
-                except:
-                    return 'Help'
-            else:
-                try:
-                    return source.books_between_years(start_year = int(args[2]), end_year = int(args[3]))
-                except:
-                    return 'Help'
-        return 'Help'
+        return run_range_command(args, source)
+
+    return 'Help' #else, return help
+
+def run_author_command(args, source):
+    if len(args) == 2 or (len(args) == 3 and args[2][0] == '_'):
+        return source.authors()
+    if len(args) == 3:
+        return source.authors(args[2])
+    return 'Help'
+
+def run_title_command(args, source):
+    if len(args) == 2:
+        return source.books()
+    if len(args) == 3:
+        if args[2][0] == '-':
+            if args[2] == '-y' or args[2] == '--year':
+                return source.books(sort_by = 'year')
+            return source.books()
+        if args[2] == '_':
+            return source.books()
+        return source.books(args[2])
     
-    else:
-        return 'Help'
+    if len(args) == 4:
+        if args[3][0] == '-':
+            if args[3] == '-y' or args[3] == '--year':
+                if args[2] == '_':
+                    return source.books(sort_by = 'year')
+                return source.books(args[2], sort_by = 'year')
+            if args[2] == '_':
+                return source.books()
+            return source.books(args[2])
+    
+    return 'Help'
+
+def run_range_command(args, source):
+    if len(args) == 2:
+        return source.books_between_years()
+        
+    if len(args) == 3:
+        if args[2] == '_':
+            return source.books_between_years()
+        try: 
+            return source.books_between_years(start_year = int(args[2]))
+        except:
+            return 'Help'
+
+    if len(args) == 4:
+        if args[2] == '_':
+            if args[3] == '_':
+                return source.books_between_years()
+            try:
+                return source.books_between_years(end_year = int(args[3]))
+            except:
+                return 'Help'
+        if args[3] == '_':
+            try:
+                return source.books_between_years(start_year = int(args[2]))
+            except:
+                return 'Help'
+        else:
+            try:
+                return source.books_between_years(start_year = int(args[2]), end_year = int(args[3]))
+            except:
+                return 'Help'
+    return 'Help'
+
                 
 def print_output(output):
+    print('\n\n')
+
     if output == 'Help':
         usage = open('usage.txt', 'r')
         print(usage.read())
@@ -98,6 +108,7 @@ def print_output(output):
                 author_string += f'{author.given_name} {author.surname} and '
 
             print(f'{book.title}, published in {book.publication_year}, written by {author_string[:-5]}.')
+    print('\n\n')
 
 
 
