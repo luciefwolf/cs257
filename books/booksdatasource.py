@@ -144,7 +144,7 @@ class BooksDataSource:
             should be included.
         '''
 
-        #Raise an exception if the input is not valid
+        #Raise an exception if the input is not valid (not an integer)
         if (type(start_year) is not int and start_year is not None) or (type(end_year) is not int and end_year is not None):
             raise TypeError("Only integers are allowed.")
 

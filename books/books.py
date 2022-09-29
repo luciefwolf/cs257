@@ -19,7 +19,8 @@ def run_command(args, source):
     return 'Help' #else, return help
 
 
-def run_author_command(short_args, source): #short_args is only the relevant arguments (excluding "books.py author")
+def run_author_command(short_args, source): 
+    #short_args is only the relevant arguments (excluding "books.py author")
     #runs the author command using the arguments given by finding out the specific structure of the input
 
     if len(short_args) == 0 or (len(short_args) == 1 and short_args[0][0] == '_'):
@@ -31,7 +32,8 @@ def run_author_command(short_args, source): #short_args is only the relevant arg
     return 'Help'
 
 
-def run_title_command(short_args, source): #short_args is only the relevant arguments (excluding "books.py title")
+def run_title_command(short_args, source): 
+    #short_args is only the relevant arguments (excluding "books.py title")
     #runs the title command using the arguments given by finding out the specific structure of the input
 
     if len(short_args) == 0:
@@ -59,7 +61,8 @@ def run_title_command(short_args, source): #short_args is only the relevant argu
     return 'Help'
 
 
-def run_range_command(short_args, source): #short_args is only the relevant arguments (excluding "books.py range")
+def run_range_command(short_args, source): 
+    #short_args is only the relevant arguments (excluding "books.py range")
     #runs the range_between_years command using the arguments given by finding out the specific structure of the input
 
     if len(short_args) == 0:
@@ -95,6 +98,12 @@ def run_range_command(short_args, source): #short_args is only the relevant argu
 
                 
 def print_output(output):
+    '''
+    This function takes in the output from run_author_command, run_title_command or 
+    run_range_command and prints out the list of books or authors in an organized 
+    format. If the input is a string 'Help', it will print out the usage statement instead. 
+    '''
+
     print('\n\n')
 
     if output == 'Help':
@@ -105,25 +114,26 @@ def print_output(output):
     elif output == []:
         print('Nothing found.')
     
+    # Check whether output is a list of Author objects or Book objects. 
     elif isinstance(output[0], bds.Author):
+        # If output is a list of authors: 
+        # Print out every author's name, birth year, and death year, followed by the list of their books 
         for author in output:
             print(f'{author.given_name} {author.surname} ({author.birth_year}-{author.death_year})')
             for book in author.books:
                 print(f'   {book.title}, published in {book.publication_year}.')
     
     else:
+        # If output is a list of books: 
+        # Print out every book's title, publication year, and author(s). 
         for book in output:
             author_string = ''
             for author in book.authors:
                 author_string += f'{author.given_name} {author.surname} and '
 
             print(f'{book.title}, published in {book.publication_year}, written by {author_string[:-5]}.')
+   
     print('\n\n')
-
-
-
-
-
 
 
 def main(args):
@@ -131,7 +141,6 @@ def main(args):
     output = run_command(args, source)
     print_output(output)
     
-
 
 if __name__ == '__main__':
     main(sys.argv)
