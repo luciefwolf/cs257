@@ -42,7 +42,7 @@ def run_title_command(short_args, source):
     if len(short_args) == 1:
         if short_args[0] == '_':
             return source.books()
-        if short_args[0][0] == '-':
+        if short_args[0][0] == '-': #if the first character of this argument is a dash
             if short_args[0] == '-y' or short_args[0] == '--year':
                 return source.books(sort_by = 'year')
             return source.books()
