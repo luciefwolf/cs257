@@ -23,7 +23,7 @@ def run_author_command(short_args, source):
     #short_args is only the relevant arguments (excluding "books.py author")
     #runs the author command using the arguments given by finding out the specific structure of the input
 
-    if len(short_args) == 0 or (len(short_args) == 1 and short_args[0][0] == '_'):
+    if len(short_args) == 0 or (len(short_args) == 1 and short_args[0][0] == '_'): #if the first character of this argument is an underscore
         return source.authors()
     
     if len(short_args) == 1:
@@ -42,7 +42,7 @@ def run_title_command(short_args, source):
     if len(short_args) == 1:
         if short_args[0] == '_':
             return source.books()
-        if short_args[0][0] == '-': #if the first character of this argument is a dash
+        if short_args[0][0] == '-':
             if short_args[0] == '-y' or short_args[0] == '--year':
                 return source.books(sort_by = 'year')
             return source.books()
