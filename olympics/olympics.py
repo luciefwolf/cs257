@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#Created by Lucie Wolf
+#Written by Lucie Wolf
 
 import sys
 import psycopg2
