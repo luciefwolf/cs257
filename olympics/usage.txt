@@ -1,0 +1,24 @@
+Written by Lucie Wolf
+
+olympics.py - a program that displays statistics on various aspects of the olympics.
+			
+
+SYNOPSIS: 
+	python3 olympics.py athletes_in_NOC [NOC]
+		displays all athletes who have participated in NOC [NOC], ordered by surname.
+
+	python3 olympics.py NOC_medals
+		displays all NOCs alongside the number of gold medals they have won, ordered 
+		decreasingly based on how many gold medals that is.
+
+	python3 olympics.py athlete_medals [sport || _] [start_year || _] [end_year || _]
+		displays all athletes sorted in descending orderby number of medals of any 
+		kind, optionally only including those who have participated in an sport name 
+		containing the string [sport], after [start_year], or before [end_year]
+
+	python3 olympics.py help
+		displays this manual page.
+
+OPTIONS: 
+	_:	skips out on this parameter, indicating it to be left blank and potentially 
+		allowing future options to be used
